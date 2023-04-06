@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Web Page Extractor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    #link-input {
+      display: block;
+      margin: 50px auto;
+      width: 400px;
+      height: 30px;
+      font-size: 16px;
+      padding: 5px;
+      border-radius: 5px;
+      border: 2px solid #ccc;
+      outline: none;
+    }
+    #submit-btn {
+      display: block;
+      margin: 10px auto;
+      width: 80px;
+      height: 30px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: #fff;
+      border-radius: 5px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+    }
+    #result {
+      margin: 50px auto;
+      width: 80%;
+      max-width: 1200px;
+      text-align: left;
+    }
+    #result h2 {
+      margin-top: 0;
+    }
+  </style>
+</head>
+<body>
+  <input type="text" id="link-input" placeholder="Enter a web link...">
+  <button id="submit-btn">Submit</button>
+  <div id="result"></div>
+
+  <script>
+    // Load the data as a JavaScript object
+    const data = [
+      {
+        "name": "Asura Scans",
+        "address": "asurascans.com",
+        "xpaths": [
+            "/html/body/div[3]/div/div/div/article/div[2]",
+            "/html/body/div[3]/div/div/div/article/div[4]",
+            "/html/body/div[3]/div/div/div/article/div[5]/div[2]",
+            "/html/body/div[3]/div/div/div/article/div[5]/div[4]",
+            "/html/body/div[3]/div/div/div/article/div[5]/div[6]"
+        ]
+      }
+    ];
+    const submitBtn = document.querySelector('#submit-btn');
+    const resultDiv = document.querySelector('#result');
+
+    submitBtn.addEventListener('click', () => {
+      const inputVal = document.querySelector('#link-input').value;
+
+      // Extract the site name from the input URL
+      const inputURL = new URL(inputVal);
+      const inputSite = inputURL.hostname.replace('www.', '');
+
+      // Find the site object in the data.json file
+      const siteObj = data.find(obj => obj.address.includes(inputSite));
+
+      if (siteObj) {
+        // Fetch the web page
+        fetch(inputVal)
+          .then(response => response.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            // Extract the elements using the XPaths
+            const elements = siteObj.XPaths.map(xpath => doc.evaluate(xpath, doc, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null))
+              .flatMap(snapshot => Array.from({length: snapshot.snapshotLength}, (_, i) => snapshot.snapshotItem(i)))
+              .filter(element => element.tagName !== 'SCRIPT'); // exclude script tags
+
+            // Clear the previous result and add the extracted elements
+            resultDiv.innerHTML = '';
+            const title = document.createElement('h2');
+            title.textContent = `Elements from ${inputSite}:`;
+            resultDiv.appendChild(title);
+            elements.forEach(element => resultDiv.appendChild(element.cloneNode(true)));
+          })
+          .catch(error => console.error(error));
+      } else {
+        resultDiv.innerHTML = 'No matching site found in the data.json file.';
+      }
+    });
+  </script>
+</body>
+</html>
