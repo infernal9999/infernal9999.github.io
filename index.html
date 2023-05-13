@@ -32,7 +32,7 @@
             formData.append('image', image);
             formData.append('source_lang', lang);
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', '/ocr', true);
+            xhr.open('POST', 'https://your-username.pythonanywhere.com/ocr', true);
             xhr.onload = function() {
                 if (xhr.status === 200) {
                     var result = JSON.parse(xhr.responseText);
