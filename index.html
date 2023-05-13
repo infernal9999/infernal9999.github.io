@@ -1,106 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Web Page Extractor</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-    }
-    #link-input {
-      display: block;
-      margin: 50px auto;
-      width: 400px;
-      height: 30px;
-      font-size: 16px;
-      padding: 5px;
-      border-radius: 5px;
-      border: 2px solid #ccc;
-      outline: none;
-    }
-    #submit-btn {
-      display: block;
-      margin: 10px auto;
-      width: 80px;
-      height: 30px;
-      font-size: 16px;
-      background-color: #4CAF50;
-      color: #fff;
-      border-radius: 5px;
-      border: none;
-      outline: none;
-      cursor: pointer;
-    }
-    #result {
-      margin: 50px auto;
-      width: 80%;
-      max-width: 1200px;
-      text-align: left;
-    }
-    #result h2 {
-      margin-top: 0;
-    }
-  </style>
+    <title>Tesseract OCR</title>
 </head>
 <body>
-  <input type="text" id="link-input" placeholder="Enter a web link...">
-  <button id="submit-btn">Submit</button>
-  <div id="result"></div>
-
-  <script>
-    // Load the data as a JavaScript object
-    const data = [
-      {
-        "name": "Asura Scans",
-        "address": "asurascans.com",
-        "xpaths": [
-            "/html/body/div[3]/div/div/div/article/div[2]",
-            "/html/body/div[3]/div/div/div/article/div[4]",
-            "/html/body/div[3]/div/div/div/article/div[5]/div[2]",
-            "/html/body/div[3]/div/div/div/article/div[5]/div[4]",
-            "/html/body/div[3]/div/div/div/article/div[5]/div[6]"
-        ]
-      }
-    ];
-    const submitBtn = document.querySelector('#submit-btn');
-    const resultDiv = document.querySelector('#result');
-
-    submitBtn.addEventListener('click', () => {
-      const inputVal = document.querySelector('#link-input').value;
-
-      // Extract the site name from the input URL
-      const inputURL = new URL(inputVal);
-      const inputSite = inputURL.hostname.replace('www.', '');
-
-      // Find the site object in the data.json file
-      const siteObj = data.find(obj => obj.address.includes(inputSite));
-
-      if (siteObj) {
-        // Fetch the web page
-        fetch(inputVal, { mode: 'cors' })
-          .then(response => response.text())
-          .then(html => {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-
-            // Extract the elements using the XPaths
-            const elements = siteObj.XPaths.map(xpath => doc.evaluate(xpath, doc, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null))
-              .flatMap(snapshot => Array.from({length: snapshot.snapshotLength}, (_, i) => snapshot.snapshotItem(i)))
-              .filter(element => element.tagName !== 'SCRIPT'); // exclude script tags
-
-            // Clear the previous result and add the extracted elements
-            resultDiv.innerHTML = '';
-            const title = document.createElement('h2');
-            title.textContent = `Elements from ${inputSite}:`;
-            resultDiv.appendChild(title);
-            elements.forEach(element => resultDiv.appendChild(element.cloneNode(true)));
-          })
-          .catch(error => console.error(error));
-      } else {
-        resultDiv.innerHTML = 'No matching site found in the data.json file.';
-      }
-    });
-  </script>
+    <h1>Tesseract OCR Demo</h1>
+    <form enctype="multipart/form-data">
+        <p>
+            <label for="image">Select an image file:</label>
+            <input type="file" id="image" name="image">
+        </p>
+        <p>
+            <label for="lang">Select source language:</label>
+            <select id="lang" name="lang">
+                <option value="eng">English</option>
+                <option value="deu">German</option>
+                <option value="fra">French</option>
+                <option value="spa">Spanish</option>
+            </select>
+        </p>
+        <p>
+            <button type="button" onclick="performOCR()">Perform OCR</button>
+        </p>
+    </form>
+    <div id="result"></div>
+    <script>
+        function performOCR() {
+            var image = document.getElementById('image').files[0];
+            var lang = document.getElementById('lang').value;
+            var formData = new FormData();
+            formData.append('image', image);
+            formData.append('source_lang', lang);
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/ocr', true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    var result = JSON.parse(xhr.responseText);
+                    var text = result.text;
+                    var coordinates = result.coordinates;
+                    var html = '';
+                    for (var i = 0; i < coordinates.length; i++) {
+                        var coord = coordinates[i];
+                        html += '<span style="position:absolute; left:' + coord.x1 + 'px; top:' + coord.y1 + 'px;">' + coord.text + '</span>';
+                    }
+                    document.getElementById('result').innerHTML = '<pre>' + text + '</pre>' + html;
+                } else {
+                    alert('Error performing OCR: ' + xhr.statusText);
+                }
+            };
+            xhr.send(formData);
+        }
+    </script>
 </body>
 </html>
