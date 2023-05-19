@@ -1,55 +1,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Tesseract OCR</title>
+    <title>Spreadsheet Viewer</title>
+    <script src="https://unpkg.com/exceljs/dist/exceljs.min.js"></script>
+    <style>
+        #spreadsheet {
+            width: 100%;
+            height: 400px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Tesseract OCR Demo</h1>
-    <form enctype="multipart/form-data">
-        <p>
-            <label for="image">Select an image file:</label>
-            <input type="file" id="image" name="image">
-        </p>
-        <p>
-            <label for="lang">Select source language:</label>
-            <select id="lang" name="lang">
-                <option value="eng">English</option>
-                <option value="deu">German</option>
-                <option value="fra">French</option>
-                <option value="spa">Spanish</option>
-            </select>
-        </p>
-        <p>
-            <button type="button" onclick="performOCR()">Perform OCR</button>
-        </p>
-    </form>
-    <div id="result"></div>
+    <div id="spreadsheet"></div>
+
     <script>
-        function performOCR() {
-            var image = document.getElementById('image').files[0];
-            var lang = document.getElementById('lang').value;
-            var formData = new FormData();
-            formData.append('image', image);
-            formData.append('source_lang', lang);
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'https://infernal9999.pythonanywhere.com/ocr', true);
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    var result = JSON.parse(xhr.responseText);
-                    var text = result.text;
-                    var coordinates = result.coordinates;
-                    var html = '';
-                    for (var i = 0; i < coordinates.length; i++) {
-                        var coord = coordinates[i];
-                        html += '<span style="position:absolute; left:' + coord.x1 + 'px; top:' + coord.y1 + 'px;">' + coord.text + '</span>';
-                    }
-                    document.getElementById('result').innerHTML = '<pre>' + text + '</pre>' + html;
-                } else {
-                    alert('Error performing OCR: ' + xhr.statusText);
-                }
-            };
-            xhr.send(formData);
-        }
+        // Load the Excel file and retrieve data from a specific sheet
+        var workbook = new ExcelJS.Workbook();
+        workbook.xlsx.readFile('Wagon Detention Particulars - Magra (Updated_On_18_05_23).xlsx')
+            .then(function () {
+                var worksheet = workbook.getWorksheet('Sheet1');
+                var sheetData = [];
+
+                worksheet.eachRow(function (row) {
+                    var rowData = [];
+                    row.eachCell(function (cell) {
+                        rowData.push(cell.value);
+                    });
+                    sheetData.push(rowData);
+                });
+
+                // Display the data on the webpage
+                var container = document.getElementById('spreadsheet');
+                var htmlTable = document.createElement('table');
+
+                sheetData.forEach(function (rowData) {
+                    var row = document.createElement('tr');
+
+                    rowData.forEach(function (cellData) {
+                        var cell = document.createElement('td');
+                        cell.textContent = cellData;
+                        row.appendChild(cell);
+                    });
+
+                    htmlTable.appendChild(row);
+                });
+
+                container.appendChild(htmlTable);
+            });
     </script>
 </body>
 </html>
