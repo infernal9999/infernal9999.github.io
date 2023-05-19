@@ -16,7 +16,7 @@
     <script>
         // Load the Excel file and retrieve data from a specific sheet
         var workbook = new ExcelJS.Workbook();
-        workbook.xlsx.readFile('https://infernal9999.github.io/Excel-Sheets/Wagon%20Detention%20Particulars%20-%20Magra%20(Updated_On_18_05_23).xlsx')
+        workbook.xlsx.readFile('Wagon Detention Particulars - Magra (Updated_On_18_05_23).xlsx')
             .then(function () {
                 var worksheet = workbook.getWorksheet('Sheet1');
                 var sheetData = [];
