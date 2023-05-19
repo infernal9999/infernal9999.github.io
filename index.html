@@ -14,10 +14,14 @@
     <div id="spreadsheet"></div>
 
     <script>
-        // Load the Excel file and retrieve data from a specific sheet
-        var workbook = new ExcelJS.Workbook();
-        workbook.xlsx.readFile('Wagon Detention Particulars - Magra (Updated_On_18_05_23).xlsx')
-            .then(function () {
+        // Fetch the Excel file
+        fetch('Wagon Detention Particulars - Magra (Updated_On_18_05_23).xlsx')
+            .then(response => response.arrayBuffer())
+            .then(buffer => {
+                var workbook = new ExcelJS.Workbook();
+                return workbook.xlsx.load(buffer);
+            })
+            .then(workbook => {
                 var worksheet = workbook.getWorksheet('Sheet1');
                 var sheetData = [];
 
@@ -46,6 +50,9 @@
                 });
 
                 container.appendChild(htmlTable);
+            })
+            .catch(error => {
+                console.error('Error loading Excel file:', error);
             });
     </script>
 </body>
