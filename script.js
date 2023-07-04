@@ -27,26 +27,6 @@ fetch('data.json')
     function buildFamilyTree(person) {
       const container = createPersonContainer(person);
 
-      if (person.SPOUSE) {
-        const spouseContainer = createPersonContainer(person.SPOUSE);
-        spouseContainer.classList.add('spouse');
-        container.appendChild(spouseContainer);
-
-        const threadContainer = document.createElement('div');
-        threadContainer.className = 'thread-container';
-        container.appendChild(threadContainer);
-
-        const thread = document.createElement('div');
-        thread.className = 'thread';
-        threadContainer.appendChild(thread);
-
-        if (person.SEX === 'MALE') {
-          thread.classList.add('thread-right');
-        } else {
-          thread.classList.add('thread-left');
-        }
-      }
-
       if (person.CHILDREN && person.CHILDREN.length > 0) {
         const childrenContainer = document.createElement('div');
         childrenContainer.className = 'children-container';
