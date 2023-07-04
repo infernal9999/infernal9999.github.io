@@ -22,13 +22,30 @@ fetch('data.json')
       name.textContent = person.NAME;
       container.appendChild(name);
     
+      if (person.WIFE !== 'NA') {
+        const wifeContainer = document.createElement('div');
+        wifeContainer.className = 'wife-container';
+    
+        const wifeAvatar = document.createElement('img');
+        wifeAvatar.className = 'avatar';
+        wifeAvatar.src = 'female_avatar.png';
+        wifeAvatar.alt = person.WIFE;
+        wifeContainer.appendChild(wifeAvatar);
+    
+        const wifeName = document.createElement('div');
+        wifeName.className = 'name';
+        wifeName.textContent = person.WIFE;
+        wifeContainer.appendChild(wifeName);
+    
+        container.appendChild(wifeContainer);
+      }
+    
       container.addEventListener('click', () => {
         showPopup(person);
       });
     
       return container;
     }
-
 
     // Show popup window with person details
     function showPopup(person) {
