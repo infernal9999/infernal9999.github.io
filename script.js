@@ -84,7 +84,6 @@ fetch('data.json')
     }
 
     // Recursive function to build the family tree
-    // Recursive function to build the family tree
     function buildFamilyTree(person) {
       const container = createPersonContainer(person);
     
@@ -101,6 +100,20 @@ fetch('data.json')
         }
     
         container.appendChild(childrenContainer);
+    
+        // Add thread container and threads
+        const threadContainer = document.createElement('div');
+        threadContainer.className = 'thread-container';
+    
+        const threadLeft = document.createElement('div');
+        threadLeft.className = 'thread thread-left';
+        threadContainer.appendChild(threadLeft);
+    
+        const threadRight = document.createElement('div');
+        threadRight.className = 'thread thread-right';
+        threadContainer.appendChild(threadRight);
+    
+        container.appendChild(threadContainer);
       }
     
       return container;
