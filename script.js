@@ -59,7 +59,7 @@ fetch('data.json')
       table.className = 'ui definition table';
     
       for (const [key, value] of Object.entries(person)) {
-        if (key !== 'SEX' && key !== 'CHILDREN' && value !== 'NA') {
+        if (key !== 'SEX' && key !== 'SON' && key !== 'DAUGHTER' && value !== 'NA') {
           const row = document.createElement('tr');
     
           const labelCell = document.createElement('td');
@@ -90,14 +90,16 @@ fetch('data.json')
       console.log(person); // Log the person data to the console for verification
       const container = createPersonContainer(person);
     
-      if (person.CHILDREN && person.CHILDREN.length > 0) {
+      if ((person.SON && person.SON.length > 0) || (person.DAUGHTER && person.DAUGHTER.length > 0)) {
         const childrenContainer = document.createElement('div');
         childrenContainer.className = 'children-container';
     
         const threadContainer = document.createElement('div');
         threadContainer.className = 'thread-container';
     
-        for (const childName of person.CHILDREN) {
+        const children = person.SON.concat(person.DAUGHTER);
+    
+        for (const childName of children) {
           const child = data.find(p => p.NAME === childName);
           if (child) {
             const childContainer = buildFamilyTree(child);
