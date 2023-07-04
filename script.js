@@ -168,6 +168,10 @@ fetch('data.json')
     
       container.appendChild(spousesContainer);
     
+      // Append the container to the family tree
+      const familyTree = document.getElementById('familyTree');
+      familyTree.appendChild(container);
+    
       // Create a separate container for children
       const childrenContainer = document.createElement('div');
       childrenContainer.className = 'children-container';
@@ -190,11 +194,9 @@ fetch('data.json')
           threadContainer.appendChild(thread);
         }
     
-        container.appendChild(threadContainer);
+        familyTree.appendChild(childrenContainer);
+        familyTree.appendChild(threadContainer);
       }
-    
-      // Append the children container after the parent container
-      container.parentNode.insertBefore(childrenContainer, container.nextSibling);
     
       return container;
     }
