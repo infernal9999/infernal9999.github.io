@@ -31,40 +31,48 @@ fetch('data.json')
     // Show popup window with person details
     function showPopup(person) {
       popup.innerHTML = ''; // Clear previous content
-
+    
       const avatar = document.createElement('img');
       avatar.className = 'popup-avatar';
       avatar.src = person.SEX === 'MALE' ? 'male_avatar.png' : 'female_avatar.png';
       avatar.alt = person.NAME;
       popup.appendChild(avatar);
-
+    
       const details = document.createElement('div');
       details.className = 'popup-details';
-
-      for (const [key, value] of Object.entries(person)) {
-        if (key !== 'SEX' && key !== 'CHILDREN' && value !== 'NA') {
-          const row = document.createElement('div');
-          row.className = 'popup-row';
-
-          const label = document.createElement('div');
-          label.className = 'popup-label';
-          label.textContent = key;
-          row.appendChild(label);
-
-          const text = document.createElement('div');
-          text.className = 'popup-text';
-          text.textContent = value;
-          row.appendChild(text);
-
-          details.appendChild(row);
-        }
-      }
-
+    
+      // Create the details table using createPopupContent function
+      createPopupContent(details, person);
+    
       popup.appendChild(details);
       popup.style.display = 'block';
-
+    
       // Close popup when clicking outside the container or on another container
       document.addEventListener('click', closePopup);
+    }
+
+    // Create popup content with person details in a table
+    function createPopupContent(details, person) {
+      const table = document.createElement('table');
+      table.className = 'ui definition table';
+    
+      for (const [key, value] of Object.entries(person)) {
+        if (key !== 'SEX' && key !== 'CHILDREN' && value !== 'NA') {
+          const row = document.createElement('tr');
+    
+          const labelCell = document.createElement('td');
+          labelCell.textContent = key;
+          row.appendChild(labelCell);
+    
+          const valueCell = document.createElement('td');
+          valueCell.textContent = value;
+          row.appendChild(valueCell);
+    
+          table.appendChild(row);
+        }
+      }
+    
+      details.appendChild(table);
     }
 
     // Close popup window
