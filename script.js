@@ -23,21 +23,21 @@ fetch('data.json')
       container.appendChild(name);
 
       if (person.WIFE !== 'NA') {
-        const wifeContainer = document.createElement('div');
-        wifeContainer.className = 'wife-container';
+        const spouseContainer = document.createElement('div');
+        spouseContainer.className = 'spouse-container';
 
-        const wifeAvatar = document.createElement('img');
-        wifeAvatar.className = 'avatar';
-        wifeAvatar.src = 'female_avatar.png';
-        wifeAvatar.alt = person.WIFE;
-        wifeContainer.appendChild(wifeAvatar);
+        const spouseAvatar = document.createElement('img');
+        spouseAvatar.className = 'avatar';
+        spouseAvatar.src = person.SEX === 'MALE' ? 'female_avatar.png' : 'male_avatar.png';
+        spouseAvatar.alt = person.WIFE;
+        spouseContainer.appendChild(spouseAvatar);
 
-        const wifeName = document.createElement('div');
-        wifeName.className = 'name';
-        wifeName.textContent = person.WIFE;
-        wifeContainer.appendChild(wifeName);
+        const spouseName = document.createElement('div');
+        spouseName.className = 'name';
+        spouseName.textContent = person.WIFE;
+        spouseContainer.appendChild(spouseName);
 
-        container.appendChild(wifeContainer);
+        container.appendChild(spouseContainer);
       }
 
       container.addEventListener('click', () => {
@@ -47,34 +47,11 @@ fetch('data.json')
       return container;
     }
 
-    // Show popup window with person details
-    function showPopup(person) {
-      popup.innerHTML = ''; // Clear previous content
-
-      const avatar = document.createElement('img');
-      avatar.className = 'popup-avatar';
-      avatar.src = person.SEX === 'MALE' ? 'male_avatar.png' : 'female_avatar.png';
-      avatar.alt = person.NAME;
-      popup.appendChild(avatar);
-
-      const details = document.createElement('div');
-      details.className = 'popup-details';
-
-      // Create the details table using createPopupContent function
-      createPopupContent(details, person);
-
-      popup.appendChild(details);
-      popup.style.display = 'block';
-
-      // Close popup when clicking outside the container or on another container
-      document.addEventListener('click', closePopup);
-    }
-
     // Create popup content with person details in a table
     function createPopupContent(details, person) {
       const table = document.createElement('table');
       table.className = 'ui definition table';
-
+    
       for (const [key, value] of Object.entries(person)) {
         if (
           key !== 'SEX' &&
@@ -86,20 +63,44 @@ fetch('data.json')
           value !== 'NA'
         ) {
           const row = document.createElement('tr');
-
+    
           const labelCell = document.createElement('td');
           labelCell.textContent = key;
           row.appendChild(labelCell);
-
+    
           const valueCell = document.createElement('td');
           valueCell.textContent = value;
           row.appendChild(valueCell);
-
+    
           table.appendChild(row);
         }
       }
-
+    
       details.appendChild(table);
+    }
+    
+    // Show popup window with person details
+    function showPopup(person) {
+      const popupContent = document.getElementById('popupContent');
+      popupContent.innerHTML = ''; // Clear previous content
+    
+      const avatar = document.createElement('img');
+      avatar.className = 'popup-avatar';
+      avatar.src = person.SEX === 'MALE' ? 'male_avatar.png' : 'female_avatar.png';
+      avatar.alt = person.NAME;
+      popupContent.appendChild(avatar);
+    
+      const details = document.createElement('div');
+      details.className = 'popup-details';
+    
+      // Create the details table using createPopupContent function
+      createPopupContent(details, person);
+    
+      popupContent.appendChild(details);
+      popup.style.display = 'block';
+    
+      // Close popup when clicking outside the container or on another container
+      document.addEventListener('click', closePopup);
     }
 
     // Close popup window
