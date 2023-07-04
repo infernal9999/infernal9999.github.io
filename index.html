@@ -1,60 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Spreadsheet Viewer</title>
-    <script src="https://unpkg.com/exceljs/dist/exceljs.min.js"></script>
-    <style>
-        #spreadsheet {
-            width: 100%;
-            height: 400px;
-        }
-    </style>
-    <meta http-equiv="Permissions-Policy" content="interest-cohort=()"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Tree</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="spreadsheet"></div>
-
-    <script>
-        // Fetch the Excel file
-        fetch('Wagon Detention Particulars - Magra (Updated_On_18_05_23).xlsx')
-            .then(response => response.arrayBuffer())
-            .then(buffer => {
-                var workbook = new ExcelJS.Workbook();
-                return workbook.xlsx.load(buffer);
-            })
-            .then(workbook => {
-                var worksheet = workbook.getWorksheet('Sheet1');
-                var sheetData = [];
-
-                worksheet.eachRow(function (row) {
-                    var rowData = [];
-                    row.eachCell(function (cell) {
-                        rowData.push(cell.value);
-                    });
-                    sheetData.push(rowData);
-                });
-
-                // Display the data on the webpage
-                var container = document.getElementById('spreadsheet');
-                var htmlTable = document.createElement('table');
-
-                sheetData.forEach(function (rowData) {
-                    var row = document.createElement('tr');
-
-                    rowData.forEach(function (cellData) {
-                        var cell = document.createElement('td');
-                        cell.textContent = cellData;
-                        row.appendChild(cell);
-                    });
-
-                    htmlTable.appendChild(row);
-                });
-
-                container.appendChild(htmlTable);
-            })
-            .catch(error => {
-                console.error('Error loading Excel file:', error);
-            });
-    </script>
+    <div id="familyTree"></div>
+    <script src="script.js"></script>
 </body>
 </html>

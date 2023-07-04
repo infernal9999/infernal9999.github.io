@@ -1,0 +1,60 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+}
+
+#familyTree {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: inline-block;
+}
+
+.person-container {
+    display: inline-block;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.name {
+    font-weight: bold;
+}
+
+.thread-container {
+    position: absolute;
+    pointer-events: none;
+}
+
+.thread {
+    position: relative;
+    width: 1px;
+    background-color: #ccc;
+    margin-left: 40px;
+}
+
+.thread-left {
+    left: -20px;
+    height: 100%;
+}
+
+.thread-right {
+    right: -20px;
+    height: 100%;
+}

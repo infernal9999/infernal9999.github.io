@@ -1,0 +1,110 @@
+[
+    {
+        "NAME": "NAGENDRACHANDRA ROY",
+        "SEX": "MALE",
+        "FATHER": "NA",
+        "MOTHER": "NA",
+        "WIFE": "BOKUL BALA ROY",
+        "SON": ["SWAPAN ROY", "TAPAN ROY", "SRIKRISHNA ROY", "RATAN ROY"],
+        "DAUGHTER": ["KALPANA SARKAR (ROY)", "SOVA SARKAR (ROY)", "PUTUL MAJUMDAR (ROY)", "PURNIMA ADHIKARY (ROY)"]
+    },
+    {
+        "NAME": "BOKUL BALA ROY",
+        "SEX": "FEMALE",
+        "FATHER": "NA",
+        "MOTHER": "NA",
+        "HUSBAND": "NAGENDRACHANDRA ROY",
+        "SON": ["SWAPAN ROY", "TAPAN ROY", "SRIKRISHNA ROY", "RATAN ROY"],
+        "DAUGHTER": ["KALPANA SARKAR (ROY)", "SOVA SARKAR (ROY)", "PUTUL MAJUMDAR (ROY)", "PURNIMA ADHIKARY (ROY)"]
+    },
+    {
+        "NAME": "SWAPAN ROY",
+        "SEX": "MALE",
+        "FATHER": "NAGENDRACHANDRA ROY",
+        "MOTHER": "BOKUL BALA ROY",
+        "WIFE": "NA",
+        "SON": [],
+        "DAUGHTER": []
+    },
+    {
+        "NAME": "KALPANA SARKAR (ROY)",
+        "SEX": "FEMALE",
+        "FATHER": "NAGENDRACHANDRA ROY",
+        "MOTHER": "BOKUL BALA ROY",
+        "HUSBAND": "NA",
+        "SON": [],
+        "DAUGHTER": []
+    },
+    {
+        "NAME": "SOVA SARKAR (ROY)",
+        "SEX": "FEMALE",
+        "FATHER": "NAGENDRACHANDRA ROY",
+        "MOTHER": "BOKUL BALA ROY",
+        "HUSBAND": "NA",
+        "SON": [],
+        "DAUGHTER": []
+    },
+    {
+        "NAME": "TAPAN ROY",
+        "SEX": "MALE",
+        "FATHER": "NAGENDRACHANDRA ROY",
+        "MOTHER": "BOKUL BALA ROY",
+        "WIFE": "NA",
+        "SON": [],
+        "DAUGHTER": []
+    },
+    {
+        "NAME": "SRIKRISHNA ROY",
+        "SEX": "MALE",
+        "FATHER": "NAGENDRACHANDRA ROY",
+        "MOTHER": "BOKUL BALA ROY",
+        "WIFE": "NITAMBINI ROY",
+        "SON": ["SANTANU ROY", "DIPTANU ROY"],
+        "DAUGHTER": []
+    },
+    {
+        "NAME": "PUTUL MAJUMDAR (ROY)",
+        "SEX": "FEMALE",
+        "FATHER": "NAGENDRACHANDRA ROY",
+        "MOTHER": "BOKUL BALA ROY",
+        "HUSBAND": "NA",
+        "SON": [],
+        "DAUGHTER": []
+    },
+    {
+        "NAME": "RATAN ROY",
+        "SEX": "MALE",
+        "FATHER": "NAGENDRACHANDRA ROY",
+        "MOTHER": "BOKUL BALA ROY",
+        "WIFE": "NA",
+        "SON": [],
+        "DAUGHTER": []
+    },
+    {
+        "NAME": "PURNIMA ADHIKARY (ROY)",
+        "SEX": "FEMALE",
+        "FATHER": "NAGENDRACHANDRA ROY",
+        "MOTHER": "BOKUL BALA ROY",
+        "HUSBAND": "NA",
+        "SON": [],
+        "DAUGHTER": []
+    },
+    {
+        "NAME": "SANTANU ROY",
+        "SEX": "MALE",
+        "FATHER": "SRIKRISHNA ROY",
+        "MOTHER": "NITAMBINI ROY",
+        "WIFE": "NIBEDITA ROY",
+        "SON": [],
+        "DAUGHTER": []
+    },
+    {
+        "NAME": "DIPTANU ROY",
+        "SEX": "MALE",
+        "FATHER": "SRIKRISHNA ROY",
+        "MOTHER": "NITAMBINI ROY",
+        "WIFE": "NA",
+        "SON": [],
+        "DAUGHTER": []
+    }
+]
