@@ -91,28 +91,23 @@ fetch('data.json')
         const childrenContainer = document.createElement('div');
         childrenContainer.className = 'children-container';
     
+        const threadContainer = document.createElement('div');
+        threadContainer.className = 'thread-container';
+    
         for (const childName of person.CHILDREN) {
           const child = data.find(p => p.NAME === childName);
           if (child) {
             const childContainer = buildFamilyTree(child);
             childrenContainer.appendChild(childContainer);
+    
+            // Create thread for each child
+            const thread = document.createElement('div');
+            thread.className = 'thread';
+            threadContainer.appendChild(thread);
           }
         }
     
         container.appendChild(childrenContainer);
-    
-        // Add thread container and threads
-        const threadContainer = document.createElement('div');
-        threadContainer.className = 'thread-container';
-    
-        const threadLeft = document.createElement('div');
-        threadLeft.className = 'thread thread-left';
-        threadContainer.appendChild(threadLeft);
-    
-        const threadRight = document.createElement('div');
-        threadRight.className = 'thread thread-right';
-        threadContainer.appendChild(threadRight);
-    
         container.appendChild(threadContainer);
       }
     
