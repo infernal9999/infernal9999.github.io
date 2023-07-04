@@ -1,4 +1,3 @@
-// Fetch the data from data.json
 fetch('data.json')
   .then(response => response.json())
   .then(data => {
@@ -20,24 +19,6 @@ fetch('data.json')
       name.className = 'name';
       name.textContent = person.NAME;
       container.appendChild(name);
-
-      if (person.WIFE !== 'NA') {
-        const wifeContainer = document.createElement('div');
-        wifeContainer.className = 'wife-container';
-
-        const wifeAvatar = document.createElement('img');
-        wifeAvatar.className = 'avatar';
-        wifeAvatar.src = 'female_avatar.png';
-        wifeAvatar.alt = person.WIFE;
-        wifeContainer.appendChild(wifeAvatar);
-
-        const wifeName = document.createElement('div');
-        wifeName.className = 'name';
-        wifeName.textContent = person.WIFE;
-        wifeContainer.appendChild(wifeName);
-
-        container.appendChild(wifeContainer);
-      }
 
       container.addEventListener('click', () => {
         showPopup(person);
@@ -110,42 +91,38 @@ fetch('data.json')
     }
 
     // Recursive function to build the family tree
-    function buildFamilyTree(person, level) {
+    function buildFamilyTree(person, parentContainer, threadContainer) {
       const container = createPersonContainer(person);
-      container.style.marginLeft = level * 100 + 'px';
 
-      const children = person.CHILDREN.map(childName =>
-        data.find(child => child.NAME === childName)
-      );
+      if (parentContainer) {
+        parentContainer.appendChild(container);
 
-      if (children.length > 0) {
-        const childrenContainer = document.createElement('div');
-        childrenContainer.className = 'children-container';
-
-        const threadContainer = document.createElement('div');
-        threadContainer.className = 'thread-container';
-
-        for (const child of children) {
-          const childContainer = buildFamilyTree(child, level + 1);
-          childrenContainer.appendChild(childContainer);
-
-          // Create thread for each child
-          const thread = document.createElement('div');
-          thread.className = 'thread';
-          threadContainer.appendChild(thread);
-        }
-
-        container.appendChild(threadContainer);
-        container.appendChild(childrenContainer);
+        // Create thread for the current person
+        const thread = document.createElement('div');
+        thread.className = 'thread';
+        threadContainer.appendChild(thread);
+      } else {
+        familyTree.appendChild(container);
       }
 
-      return container;
+      const childrenContainer = document.createElement('div');
+      childrenContainer.className = 'children-container';
+
+      const threadContainerInner = document.createElement('div');
+      threadContainerInner.className = 'thread-container';
+
+      for (const childName of person.CHILDREN) {
+        const child = data.find(child => child.NAME === childName);
+        buildFamilyTree(child, childrenContainer, threadContainerInner);
+      }
+
+      container.appendChild(childrenContainer);
+      container.appendChild(threadContainerInner);
     }
 
     // Find the root person (someone with no parents)
     const rootPerson = data.find(person => person.FATHER === 'NA' && person.MOTHER === 'NA');
     if (rootPerson) {
-      const tree = buildFamilyTree(rootPerson, 0);
-      familyTree.appendChild(tree);
+      const tree = buildFamilyTree(rootPerson);
     }
   });
