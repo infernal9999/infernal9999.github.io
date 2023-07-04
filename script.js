@@ -2,7 +2,6 @@
 fetch('data.json')
   .then(response => response.json())
   .then(data => {
-    console.log(data); // Log the data to the console for verification
     const familyTree = document.getElementById('familyTree');
     const popup = document.getElementById('popup');
 
@@ -24,7 +23,7 @@ fetch('data.json')
 
       if (person.WIFE !== 'NA') {
         const wifeContainer = document.createElement('div');
-        wifeContainer.className = 'spouse-container';
+        wifeContainer.className = 'wife-container';
 
         const wifeAvatar = document.createElement('img');
         wifeAvatar.className = 'avatar';
@@ -111,8 +110,9 @@ fetch('data.json')
     }
 
     // Recursive function to build the family tree
-    function buildFamilyTree(person) {
+    function buildFamilyTree(person, level = 0) {
       const container = createPersonContainer(person);
+      container.style.marginLeft = level * 60 + 'px'; // Adjust the horizontal spacing
 
       const children = person.CHILDREN.map(childName =>
         data.find(child => child.NAME === childName)
@@ -122,25 +122,21 @@ fetch('data.json')
         const childrenContainer = document.createElement('div');
         childrenContainer.className = 'children-container';
 
-        for (const child of children) {
-          const childContainer = buildFamilyTree(child);
-          childrenContainer.appendChild(childContainer);
-        }
-
         const threadContainer = document.createElement('div');
         threadContainer.className = 'thread-container';
 
-        for (let i = 0; i < children.length - 1; i++) {
+        for (const child of children) {
+          const childContainer = buildFamilyTree(child, level + 1);
+          childrenContainer.appendChild(childContainer);
+
+          // Create thread for each child
           const thread = document.createElement('div');
           thread.className = 'thread';
           threadContainer.appendChild(thread);
         }
 
-        familyTree.appendChild(threadContainer);
-        familyTree.appendChild(container);
-        familyTree.appendChild(childrenContainer);
-      } else {
-        familyTree.appendChild(container);
+        container.appendChild(threadContainer);
+        container.appendChild(childrenContainer);
       }
 
       return container;
