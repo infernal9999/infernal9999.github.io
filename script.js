@@ -2,6 +2,7 @@
 fetch('data.json')
   .then(response => response.json())
   .then(data => {
+    console.log(data); // Log the data to the console for verification
     const familyTree = document.getElementById('familyTree');
     const popup = document.getElementById('popup');
 
@@ -86,6 +87,7 @@ fetch('data.json')
 
     // Recursive function to build the family tree
     function buildFamilyTree(person) {
+      console.log(person); // Log the person data to the console for verification
       const container = createPersonContainer(person);
     
       if (person.CHILDREN && person.CHILDREN.length > 0) {
