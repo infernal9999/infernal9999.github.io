@@ -113,7 +113,19 @@ fetch('data.json')
 
     // Recursive function to build the family tree
     function buildFamilyTree(person) {
-      const container = createPersonContainer(person);
+      const container = document.createElement('div');
+      container.className = 'person-container';
+    
+      const avatar = document.createElement('img');
+      avatar.className = 'avatar';
+      avatar.src = person.SEX === 'MALE' ? 'male_avatar.png' : 'female_avatar.png';
+      avatar.alt = person.NAME;
+      container.appendChild(avatar);
+    
+      const name = document.createElement('div');
+      name.className = 'name';
+      name.textContent = person.NAME;
+      container.appendChild(name);
     
       const spousesContainer = document.createElement('div');
       spousesContainer.className = 'spouses-container';
@@ -121,7 +133,17 @@ fetch('data.json')
       if (person.HUSBAND !== 'NA') {
         const husband = data.find(p => p.NAME === person.HUSBAND);
         if (husband) {
-          const husbandContainer = createPersonContainer(husband);
+          const husbandContainer = document.createElement('div');
+          husbandContainer.className = 'spouse-container';
+          const husbandAvatar = document.createElement('img');
+          husbandAvatar.className = 'avatar';
+          husbandAvatar.src = 'male_avatar.png';
+          husbandAvatar.alt = husband.NAME;
+          husbandContainer.appendChild(husbandAvatar);
+          const husbandName = document.createElement('div');
+          husbandName.className = 'name';
+          husbandName.textContent = husband.NAME;
+          husbandContainer.appendChild(husbandName);
           spousesContainer.appendChild(husbandContainer);
         }
       }
@@ -129,7 +151,17 @@ fetch('data.json')
       if (person.WIFE !== 'NA') {
         const wife = data.find(p => p.NAME === person.WIFE);
         if (wife) {
-          const wifeContainer = createPersonContainer(wife);
+          const wifeContainer = document.createElement('div');
+          wifeContainer.className = 'spouse-container';
+          const wifeAvatar = document.createElement('img');
+          wifeAvatar.className = 'avatar';
+          wifeAvatar.src = 'female_avatar.png';
+          wifeAvatar.alt = wife.NAME;
+          wifeContainer.appendChild(wifeAvatar);
+          const wifeName = document.createElement('div');
+          wifeName.className = 'name';
+          wifeName.textContent = wife.NAME;
+          wifeContainer.appendChild(wifeName);
           spousesContainer.appendChild(wifeContainer);
         }
       }
@@ -161,6 +193,7 @@ fetch('data.json')
     
       return container;
     }
+    
     // Find the root person (someone with no parents)
     const rootPerson = data.find(person => person.FATHER === 'NA' && person.MOTHER === 'NA');
     if (rootPerson) {
