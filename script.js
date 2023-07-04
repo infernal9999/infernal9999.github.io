@@ -84,13 +84,14 @@ fetch('data.json')
     }
 
     // Recursive function to build the family tree
+    // Recursive function to build the family tree
     function buildFamilyTree(person) {
       const container = createPersonContainer(person);
-
+    
       if (person.CHILDREN && person.CHILDREN.length > 0) {
         const childrenContainer = document.createElement('div');
         childrenContainer.className = 'children-container';
-
+    
         for (const childName of person.CHILDREN) {
           const child = data.find(p => p.NAME === childName);
           if (child) {
@@ -98,13 +99,13 @@ fetch('data.json')
             childrenContainer.appendChild(childContainer);
           }
         }
-
+    
         container.appendChild(childrenContainer);
       }
-
+    
       return container;
     }
-
+    
     // Find the root person (someone with no parents)
     const rootPerson = data.find(person => person.FATHER === 'NA' && person.MOTHER === 'NA');
     if (rootPerson) {
