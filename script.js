@@ -1,3 +1,4 @@
+// script.js
 fetch('data.json')
   .then(response => response.json())
   .then(data => {
@@ -105,6 +106,16 @@ fetch('data.json')
         familyTree.appendChild(container);
       }
 
+      if (person.WIFE !== 'NA') {
+        const wifeContainer = createPersonContainer(data.find(p => p.NAME === person.WIFE));
+        container.appendChild(wifeContainer);
+
+        // Create thread between husband and wife
+        const thread = document.createElement('div');
+        thread.className = 'thread';
+        threadContainer.appendChild(thread);
+      }
+
       const childrenContainer = document.createElement('div');
       childrenContainer.className = 'children-container';
 
@@ -116,8 +127,8 @@ fetch('data.json')
         buildFamilyTree(child, childrenContainer, threadContainerInner);
       }
 
-      container.appendChild(childrenContainer);
       container.appendChild(threadContainerInner);
+      container.appendChild(childrenContainer);
     }
 
     // Find the root person (someone with no parents)
