@@ -9,24 +9,25 @@ fetch('data.json')
     function createPersonContainer(person) {
       const container = document.createElement('div');
       container.className = 'person-container';
-
+    
       const avatar = document.createElement('img');
       avatar.className = 'avatar';
       avatar.src = person.SEX === 'MALE' ? 'male_avatar.png' : 'female_avatar.png';
       avatar.alt = person.NAME;
       container.appendChild(avatar);
-
+    
       const name = document.createElement('div');
       name.className = 'name';
       name.textContent = person.NAME;
       container.appendChild(name);
-
+    
       container.addEventListener('click', () => {
         showPopup(person);
       });
-
+    
       return container;
     }
+
 
     // Show popup window with person details
     function showPopup(person) {
