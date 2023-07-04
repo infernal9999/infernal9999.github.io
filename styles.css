@@ -17,6 +17,10 @@ body {
     display: inline-block;
 }
 
+#popup .header {
+  display: none;
+}
+
 .person-container {
     display: inline-block;
     text-align: center;
