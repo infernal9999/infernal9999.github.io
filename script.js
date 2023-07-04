@@ -11,14 +11,14 @@ document.addEventListener("DOMContentLoaded", function() {
     .then((response) => response.json())
     .then((familyData) => {
       familyData.forEach((person) => {
-        createPersonContainer(person);
+        createPersonContainer(person, familyData);
       });
     })
     .catch((error) => {
       console.error("Error fetching data:", error);
     });
 
-  const createPersonContainer = (person) => {
+  const createPersonContainer = (person, familyData) => {
     const container = document.createElement("div");
     container.className = "container";
 
