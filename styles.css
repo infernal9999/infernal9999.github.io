@@ -1,81 +1,97 @@
-.tree-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
 .person-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin-bottom: 40px;
+  position: relative;
+  display: inline-block;
+  text-align: center;
 }
 
-.spouses-container {
-  display: flex;
-}
-
-.spouse-container {
-  display: flex;
-  align-items: center;
-  margin-right: 20px;
-}
-
-.thread-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-.thread {
-  width: 1px;
-  height: 40px;
-  background-color: #ccc;
-  margin: 0 5px;
-}
-
-.avatar {
+.person-container .avatar {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  margin-bottom: 10px;
 }
 
-.name {
-  font-weight: bold;
-  text-align: center;
+.person-container .name {
+  margin-top: 5px;
+}
+
+.person-container .wife-container {
+  margin-top: 20px;
+}
+
+.person-container .wife-container .avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.person-container .wife-container .name {
+  margin-top: 5px;
 }
 
 .popup {
   position: absolute;
-  display: none;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 4px;
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15);
-}
-
-.popup-avatar {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  margin-bottom: 20px;
-}
-
-.popup-details table {
-  width: 100%;
-}
-
-.popup-details td {
-  padding: 5px;
-}
-
-.popup-details td:first-child {
-  font-weight: bold;
-}
-
-.popup-details tr:nth-child(even) {
+  top: -160px;
+  left: 50%;
+  transform: translateX(-50%);
   background-color: #f9f9f9;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  display: none;
+  z-index: 999;
+}
+
+.popup .popup-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.popup .popup-details {
+  text-align: left;
+}
+
+.thread-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.thread {
+  width: 2px;
+  background-color: #ccc;
+  position: relative;
+  margin: 20px 0;
+  z-index: -1;
+}
+
+.thread:first-child {
+  margin-top: 0;
+}
+
+.children-container {
+  position: relative;
+}
+
+/* Additional styles for better spacing */
+#familyTree {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.popup-details {
+  margin-top: 10px;
+}
+
+.ui.definition.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ui.definition.table td {
+  padding: 5px;
+  border-bottom: 1px solid #ddd;
 }
