@@ -1,89 +1,62 @@
 .person-container {
-  position: relative;
-  display: inline-block;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-.person-container .avatar {
+.avatar {
   width: 80px;
   height: 80px;
   border-radius: 50%;
 }
 
-.person-container .name {
-  margin-top: 5px;
-}
-
-.person-container .wife-container {
-  margin-top: 20px;
-}
-
-.person-container .wife-container .avatar {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  margin-right: 10px;
-}
-
-.person-container .wife-container .name {
-  margin-top: 5px;
-}
-
-.popup {
-  position: absolute;
-  top: -160px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #f9f9f9;
-  padding: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  display: none;
-  z-index: 999;
-}
-
-.popup .popup-avatar {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  margin-bottom: 10px;
-}
-
-.popup .popup-details {
-  text-align: left;
+.name {
+  margin-top: 10px;
 }
 
 .thread-container {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
 }
 
 .thread {
   width: 2px;
+  height: 40px;
   background-color: #ccc;
-  position: relative;
-  margin: 20px 0;
-  z-index: -1;
-}
-
-.thread:first-child {
-  margin-top: 0;
+  margin-left: 40px;
 }
 
 .children-container {
-  position: relative;
-}
-
-/* Additional styles for better spacing */
-#familyTree {
-  padding: 20px;
   display: flex;
   justify-content: center;
+  align-items: flex-start;
+}
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  z-index: 999;
+  display: none;
+}
+
+.popup-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
 }
 
 .popup-details {
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 .ui.definition.table {
@@ -91,7 +64,15 @@
   border-collapse: collapse;
 }
 
+.ui.definition.table tr {
+  border-bottom: 1px solid #ccc;
+}
+
 .ui.definition.table td {
-  padding: 5px;
-  border-bottom: 1px solid #ddd;
+  padding: 10px;
+}
+
+.ui.definition.table td:first-child {
+  font-weight: bold;
+  width: 150px;
 }
