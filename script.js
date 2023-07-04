@@ -90,26 +90,23 @@ fetch('data.json')
       console.log(person); // Log the person data to the console for verification
       const container = createPersonContainer(person);
     
-      if ((person.SON && person.SON.length > 0) || (person.DAUGHTER && person.DAUGHTER.length > 0)) {
+      const children = data.filter(p => person.NAME === p.FATHER || person.NAME === p.MOTHER);
+    
+      if (children.length > 0) {
         const childrenContainer = document.createElement('div');
         childrenContainer.className = 'children-container';
     
         const threadContainer = document.createElement('div');
         threadContainer.className = 'thread-container';
     
-        const children = person.SON.concat(person.DAUGHTER);
+        for (const child of children) {
+          const childContainer = buildFamilyTree(child);
+          childrenContainer.appendChild(childContainer);
     
-        for (const childName of children) {
-          const child = data.find(p => p.NAME === childName);
-          if (child) {
-            const childContainer = buildFamilyTree(child);
-            childrenContainer.appendChild(childContainer);
-    
-            // Create thread for each child
-            const thread = document.createElement('div');
-            thread.className = 'thread';
-            threadContainer.appendChild(thread);
-          }
+          // Create thread for each child
+          const thread = document.createElement('div');
+          thread.className = 'thread';
+          threadContainer.appendChild(thread);
         }
     
         container.appendChild(childrenContainer);
