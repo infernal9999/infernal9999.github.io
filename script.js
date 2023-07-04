@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
+  let familyData = []; // Declare familyData variable inside the event listener
+
   const familyTreeContainer = document.getElementById("familyTree");
   const popup = document.getElementById("popup");
   const popupContent = document.getElementById("popupContent");
@@ -9,16 +11,17 @@ document.addEventListener("DOMContentLoaded", function() {
   // Fetch data from data.json
   fetch("data.json")
     .then((response) => response.json())
-    .then((familyData) => {
+    .then((data) => {
+      familyData = data; // Assign fetched data to familyData
       familyData.forEach((person) => {
-        createPersonContainer(person, familyData);
+        createPersonContainer(person);
       });
     })
     .catch((error) => {
       console.error("Error fetching data:", error);
     });
 
-  const createPersonContainer = (person, familyData) => {
+  const createPersonContainer = (person) => {
     const container = document.createElement("div");
     container.className = "container";
 
@@ -37,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if (partner) {
       container.style.backgroundColor = "orangered";
-
+      
       container.addEventListener("mouseenter", function() {
         this.style.backgroundColor = "indianred";
       });
