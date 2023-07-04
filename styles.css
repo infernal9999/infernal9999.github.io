@@ -22,12 +22,13 @@ body {
 }
 
 .person-container {
-    display: inline-block;
-    text-align: center;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+  display: inline-block;
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  position: relative; /* Add this line */
 }
 
 .avatar {
@@ -42,23 +43,28 @@ body {
 }
 
 .thread-container {
-    position: absolute;
-    pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
 }
 
 .thread {
-    position: relative;
-    width: 1px;
-    background-color: #ccc;
-    margin-left: 40px;
+  position: absolute;
+  width: 1px;
+  background-color: #ccc;
+  top: 0;
+  bottom: 0;
+  margin-left: 40px;
 }
 
 .thread-left {
-    left: -20px;
-    height: 100%;
+  left: -20px;
+  height: 100%;
 }
 
 .thread-right {
-    right: -20px;
-    height: 100%;
+  right: -20px;
+  height: 100%;
 }
