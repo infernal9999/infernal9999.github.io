@@ -63,6 +63,15 @@
         "DAUGHTER": []
     },
     {
+        "NAME": "NITAMBINI ROY",
+        "SEX": "FEMALE",
+        "FATHER": "NA",
+        "MOTHER": "NA",
+        "HUSBAND": "SRIKRISHNA ROY",
+        "SON": ["SANTANU ROY", "DIPTANU ROY"],
+        "DAUGHTER": []
+    },
+    {
         "NAME": "PUTUL MAJUMDAR (ROY)",
         "SEX": "FEMALE",
         "FATHER": "NAGENDRACHANDRA ROY",
