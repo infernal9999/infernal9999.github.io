@@ -1,13 +1,22 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Family Tree</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-  </head>
-  <body>
-    <div id="familyTree"></div>
-    <div id="popup"></div>
+<head>
+  <title>Family Tree Visualization</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="familyTree" class="grid-container"></div>
 
-    <script src="script.js"></script>
-  </body>
+  <div id="popup" class="popup">
+    <div id="popupContent" class="popup-details">
+      <h2>Person Details</h2>
+      <img id="popupImage" src="" alt="Person Image" class="popup-image">
+      <div id="popupDetails"></div>
+      <img id="closeButton" src="close.png" alt="Close" class="close-button">
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
 </html>
