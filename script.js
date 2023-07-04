@@ -113,37 +113,54 @@ fetch('data.json')
 
     // Recursive function to build the family tree
     function buildFamilyTree(person) {
-      console.log(person); // Log the person data to the console for verification
       const container = createPersonContainer(person);
-
-      const children = person.CHILDREN.map(childName =>
-        data.find(child => child.NAME === childName)
-      );
-
+    
+      const spousesContainer = document.createElement('div');
+      spousesContainer.className = 'spouses-container';
+    
+      if (person.HUSBAND !== 'NA') {
+        const husband = data.find(p => p.NAME === person.HUSBAND);
+        if (husband) {
+          const husbandContainer = createPersonContainer(husband);
+          spousesContainer.appendChild(husbandContainer);
+        }
+      }
+    
+      if (person.WIFE !== 'NA') {
+        const wife = data.find(p => p.NAME === person.WIFE);
+        if (wife) {
+          const wifeContainer = createPersonContainer(wife);
+          spousesContainer.appendChild(wifeContainer);
+        }
+      }
+    
+      container.appendChild(spousesContainer);
+    
+      const children = person.CHILDREN.map(childName => data.find(child => child.NAME === childName));
+    
       if (children.length > 0) {
         const childrenContainer = document.createElement('div');
         childrenContainer.className = 'children-container';
-
+    
         const threadContainer = document.createElement('div');
         threadContainer.className = 'thread-container';
-
+    
         for (const child of children) {
           const childContainer = buildFamilyTree(child);
           childrenContainer.appendChild(childContainer);
-
+    
           // Create thread for each child
           const thread = document.createElement('div');
           thread.className = 'thread';
           threadContainer.appendChild(thread);
         }
-
+    
         container.appendChild(childrenContainer);
         container.appendChild(threadContainer);
       }
-
+    
       return container;
     }
-
     // Find the root person (someone with no parents)
     const rootPerson = data.find(person => person.FATHER === 'NA' && person.MOTHER === 'NA');
     if (rootPerson) {
