@@ -1,139 +1,84 @@
-// script.js
-fetch('data.json')
-  .then(response => response.json())
-  .then(data => {
-    const familyTree = document.getElementById('familyTree');
-    const popup = document.getElementById('popup');
+document.addEventListener("DOMContentLoaded", function() {
+  const familyTreeContainer = document.getElementById("familyTree");
+  const popup = document.getElementById("popup");
+  const popupContent = document.getElementById("popupContent");
+  const popupImage = document.getElementById("popupImage");
+  const popupDetails = document.getElementById("popupDetails");
+  const closeButton = document.getElementById("closeButton");
 
-    // Create a person container with avatar and name
-    function createPersonContainer(person) {
-      const container = document.createElement('div');
-      container.className = 'person-container';
+  const createPersonContainer = (person) => {
+    const container = document.createElement("div");
+    container.className = "container";
 
-      const avatar = document.createElement('img');
-      avatar.className = 'avatar';
-      avatar.src = person.SEX === 'MALE' ? 'male_avatar.png' : 'female_avatar.png';
-      avatar.alt = person.NAME;
-      container.appendChild(avatar);
+    if (person.SEX === "MALE") {
+      container.classList.add("husband");
+    } else {
+      container.classList.add("wife");
+    }
 
-      const name = document.createElement('div');
-      name.className = 'name';
-      name.textContent = person.NAME;
-      container.appendChild(name);
+    // Check if the person has a partner
+    const partner = familyData.find(
+      (p) =>
+        (person.SEX === "MALE" && p.NAME === person.WIFE) ||
+        (person.SEX === "FEMALE" && p.NAME === person.HUSBAND)
+    );
 
-      container.addEventListener('click', () => {
-        showPopup(person);
+    if (partner) {
+      container.style.backgroundColor = "orangered";
+
+      container.addEventListener("mouseenter", function() {
+        this.style.backgroundColor = "indianred";
       });
 
-      return container;
+      container.addEventListener("mouseleave", function() {
+        this.style.backgroundColor = "orangered"; // Reset the background color
+      });
     }
 
-    // Show popup window with person details
-    function showPopup(person) {
-      popup.innerHTML = ''; // Clear previous content
+    const imageSrc = `images/${person.NAME.replace(/\s+/g, "").toLowerCase()}.png`;
+    const fallbackImageSrc = person.SEX === "MALE" ? "images/male_avatar.png" : "images/female_avatar.png";
 
-      const avatar = document.createElement('img');
-      avatar.className = 'popup-avatar';
-      avatar.src = person.SEX === 'MALE' ? 'male_avatar.png' : 'female_avatar.png';
-      avatar.alt = person.NAME;
-      popup.appendChild(avatar);
+    const image = document.createElement("img");
+    image.src = imageSrc;
+    image.onerror = () => {
+      image.src = fallbackImageSrc;
+    };
 
-      const details = document.createElement('div');
-      details.className = 'popup-details';
+    image.addEventListener("click", () => {
+      popupImage.src = image.src;
+      popupDetails.innerHTML = `<p>Name: ${person.NAME}</p>` +
+                                `<p>Sex: ${person.SEX}</p>` +
+                                `<p>Father: ${person.FATHER}</p>` +
+                                `<p>Mother: ${person.MOTHER}</p>` +
+                                `<p>Date of Birth: ${person.DOB}</p>` +
+                                `<p>Wife: ${person.WIFE}</p>` +
+                                `<p>Children: ${person.CHILDREN.join(", ")}</p>`;
+      popup.style.display = "block";
+    });
 
-      // Create the details table using createPopupContent function
-      createPopupContent(details, person);
+    const name = document.createElement("div");
+    name.className = "name";
+    name.textContent = person.NAME;
 
-      popup.appendChild(details);
-      popup.style.display = 'block';
+    container.appendChild(image);
+    container.appendChild(name);
+    familyTreeContainer.appendChild(container);
+  };
 
-      // Close popup when clicking outside the container or on another container
-      document.addEventListener('click', closePopup);
-    }
+  // Fetch data from data.json
+  fetch("data.json")
+    .then((response) => response.json())
+    .then((data) => {
+      const familyData = data;
+      familyData.forEach((person) => {
+        createPersonContainer(person);
+      });
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
 
-    // Create popup content with person details in a table
-    function createPopupContent(details, person) {
-      const table = document.createElement('table');
-      table.className = 'ui definition table';
-
-      for (const [key, value] of Object.entries(person)) {
-        if (
-          key !== 'SEX' &&
-          key !== 'FATHER' &&
-          key !== 'MOTHER' &&
-          key !== 'HUSBAND' &&
-          key !== 'WIFE' &&
-          key !== 'CHILDREN' &&
-          value !== 'NA'
-        ) {
-          const row = document.createElement('tr');
-
-          const labelCell = document.createElement('td');
-          labelCell.textContent = key;
-          row.appendChild(labelCell);
-
-          const valueCell = document.createElement('td');
-          valueCell.textContent = value;
-          row.appendChild(valueCell);
-
-          table.appendChild(row);
-        }
-      }
-
-      details.appendChild(table);
-    }
-
-    // Close popup window
-    function closePopup(event) {
-      if (!event.target.closest('.person-container')) {
-        popup.style.display = 'none';
-        document.removeEventListener('click', closePopup);
-      }
-    }
-
-    // Recursive function to build the family tree
-    function buildFamilyTree(person, parentContainer, threadContainer) {
-      const container = createPersonContainer(person);
-
-      if (parentContainer) {
-        parentContainer.appendChild(container);
-
-        // Create thread for the current person
-        const thread = document.createElement('div');
-        thread.className = 'thread';
-        threadContainer.appendChild(thread);
-      } else {
-        familyTree.appendChild(container);
-      }
-
-      if (person.WIFE !== 'NA') {
-        const wifeContainer = createPersonContainer(data.find(p => p.NAME === person.WIFE));
-        container.appendChild(wifeContainer);
-
-        // Create thread between husband and wife
-        const thread = document.createElement('div');
-        thread.className = 'thread';
-        threadContainer.appendChild(thread);
-      }
-
-      const childrenContainer = document.createElement('div');
-      childrenContainer.className = 'children-container';
-
-      const threadContainerInner = document.createElement('div');
-      threadContainerInner.className = 'thread-container';
-
-      for (const childName of person.CHILDREN) {
-        const child = data.find(child => child.NAME === childName);
-        buildFamilyTree(child, childrenContainer, threadContainerInner);
-      }
-
-      container.appendChild(threadContainerInner);
-      container.appendChild(childrenContainer);
-    }
-
-    // Find the root person (someone with no parents)
-    const rootPerson = data.find(person => person.FATHER === 'NA' && person.MOTHER === 'NA');
-    if (rootPerson) {
-      const tree = buildFamilyTree(rootPerson);
-    }
+  closeButton.addEventListener("click", () => {
+    popup.style.display = "none";
   });
+});
