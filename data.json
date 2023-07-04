@@ -4,116 +4,116 @@
         "SEX": "MALE",
         "FATHER": "NA",
         "MOTHER": "NA",
+        "DOB": "NA",
         "WIFE": "BOKUL BALA ROY",
-        "SON": ["SWAPAN ROY", "TAPAN ROY", "SRIKRISHNA ROY", "RATAN ROY"],
-        "DAUGHTER": ["KALPANA SARKAR (ROY)", "SOVA SARKAR (ROY)", "PUTUL MAJUMDAR (ROY)", "PURNIMA ADHIKARY (ROY)"]
+        "CHILDREN": ["KALPANA SARKAR (ROY)", "SOVA SARKAR (ROY)", "SWAPAN ROY", "TAPAN ROY", "SRIKRISHNA ROY", "PUTUL MAJUMDAR (ROY)", "PURNIMA ADHIKARY (ROY)", "RATAN ROY"]
     },
     {
         "NAME": "BOKUL BALA ROY",
         "SEX": "FEMALE",
         "FATHER": "NA",
         "MOTHER": "NA",
+        "DOB": "NA",
         "HUSBAND": "NAGENDRACHANDRA ROY",
-        "SON": ["SWAPAN ROY", "TAPAN ROY", "SRIKRISHNA ROY", "RATAN ROY"],
-        "DAUGHTER": ["KALPANA SARKAR (ROY)", "SOVA SARKAR (ROY)", "PUTUL MAJUMDAR (ROY)", "PURNIMA ADHIKARY (ROY)"]
+        "CHILDREN": ["KALPANA SARKAR (ROY)", "SOVA SARKAR (ROY)", "SWAPAN ROY", "TAPAN ROY", "SRIKRISHNA ROY", "PUTUL MAJUMDAR (ROY)", "PURNIMA ADHIKARY (ROY)", "RATAN ROY"]
     },
     {
         "NAME": "SWAPAN ROY",
         "SEX": "MALE",
         "FATHER": "NAGENDRACHANDRA ROY",
         "MOTHER": "BOKUL BALA ROY",
+        "DOB": "NA",
         "WIFE": "NA",
-        "SON": [],
-        "DAUGHTER": []
+        "CHILDREN": []
     },
     {
         "NAME": "KALPANA SARKAR (ROY)",
         "SEX": "FEMALE",
         "FATHER": "NAGENDRACHANDRA ROY",
         "MOTHER": "BOKUL BALA ROY",
+        "DOB": "NA",
         "HUSBAND": "NA",
-        "SON": [],
-        "DAUGHTER": []
+        "CHILDREN": []
     },
     {
         "NAME": "SOVA SARKAR (ROY)",
         "SEX": "FEMALE",
         "FATHER": "NAGENDRACHANDRA ROY",
         "MOTHER": "BOKUL BALA ROY",
+        "DOB": "NA",
         "HUSBAND": "NA",
-        "SON": [],
-        "DAUGHTER": []
+        "CHILDREN": []
     },
     {
         "NAME": "TAPAN ROY",
         "SEX": "MALE",
         "FATHER": "NAGENDRACHANDRA ROY",
         "MOTHER": "BOKUL BALA ROY",
+        "DOB": "NA",
         "WIFE": "NA",
-        "SON": [],
-        "DAUGHTER": []
+        "CHILDREN": []
     },
     {
         "NAME": "SRIKRISHNA ROY",
         "SEX": "MALE",
         "FATHER": "NAGENDRACHANDRA ROY",
         "MOTHER": "BOKUL BALA ROY",
+        "DOB": "27/01/1965",
         "WIFE": "NITAMBINI ROY",
-        "SON": ["SANTANU ROY", "DIPTANU ROY"],
-        "DAUGHTER": []
+        "CHILDREN": ["SANTANU ROY", "DIPTANU ROY"]
     },
     {
         "NAME": "NITAMBINI ROY",
         "SEX": "FEMALE",
         "FATHER": "NA",
         "MOTHER": "NA",
+        "DOB": "08/01/1968",
         "HUSBAND": "SRIKRISHNA ROY",
-        "SON": ["SANTANU ROY", "DIPTANU ROY"],
-        "DAUGHTER": []
+        "CHILDREN": ["SANTANU ROY", "DIPTANU ROY"]
     },
     {
         "NAME": "PUTUL MAJUMDAR (ROY)",
         "SEX": "FEMALE",
         "FATHER": "NAGENDRACHANDRA ROY",
         "MOTHER": "BOKUL BALA ROY",
+        "DOB": "NA",
         "HUSBAND": "NA",
-        "SON": [],
-        "DAUGHTER": []
+        "CHILDREN": []
     },
     {
         "NAME": "RATAN ROY",
         "SEX": "MALE",
         "FATHER": "NAGENDRACHANDRA ROY",
         "MOTHER": "BOKUL BALA ROY",
+        "DOB": "NA",
         "WIFE": "NA",
-        "SON": [],
-        "DAUGHTER": []
+        "CHILDREN": []
     },
     {
         "NAME": "PURNIMA ADHIKARY (ROY)",
         "SEX": "FEMALE",
         "FATHER": "NAGENDRACHANDRA ROY",
         "MOTHER": "BOKUL BALA ROY",
+        "DOB": "NA",
         "HUSBAND": "NA",
-        "SON": [],
-        "DAUGHTER": []
+        "CHILDREN": []
     },
     {
         "NAME": "SANTANU ROY",
         "SEX": "MALE",
         "FATHER": "SRIKRISHNA ROY",
         "MOTHER": "NITAMBINI ROY",
+        "DOB": "29/02/1992",
         "WIFE": "NIBEDITA ROY",
-        "SON": [],
-        "DAUGHTER": []
+        "CHILDREN": [],
     },
     {
         "NAME": "DIPTANU ROY",
         "SEX": "MALE",
         "FATHER": "SRIKRISHNA ROY",
         "MOTHER": "NITAMBINI ROY",
+        "DOB": "30/11/1995",
         "WIFE": "NA",
-        "SON": [],
-        "DAUGHTER": []
+        "CHILDREN": []
     }
 ]
