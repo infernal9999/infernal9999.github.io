@@ -6,6 +6,18 @@ document.addEventListener("DOMContentLoaded", function() {
   const popupDetails = document.getElementById("popupDetails");
   const closeButton = document.getElementById("closeButton");
 
+  // Fetch data from data.json
+  fetch("data.json")
+    .then((response) => response.json())
+    .then((familyData) => {
+      familyData.forEach((person) => {
+        createPersonContainer(person);
+      });
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
+
   const createPersonContainer = (person) => {
     const container = document.createElement("div");
     container.className = "container";
@@ -64,19 +76,6 @@ document.addEventListener("DOMContentLoaded", function() {
     container.appendChild(name);
     familyTreeContainer.appendChild(container);
   };
-
-  // Fetch data from data.json
-  fetch("data.json")
-    .then((response) => response.json())
-    .then((data) => {
-      const familyData = data;
-      familyData.forEach((person) => {
-        createPersonContainer(person);
-      });
-    })
-    .catch((error) => {
-      console.error("Error fetching data:", error);
-    });
 
   closeButton.addEventListener("click", () => {
     popup.style.display = "none";
