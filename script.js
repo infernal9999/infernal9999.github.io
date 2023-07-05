@@ -60,16 +60,18 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     image.addEventListener("click", () => {
-      popupImage.src = image.src;
-      popupDetails.innerHTML = `<p>Name: ${person.NAME}</p>` +
-                                `<p>Sex: ${person.SEX}</p>` +
-                                `<p>Father: ${person.FATHER}</p>` +
-                                `<p>Mother: ${person.MOTHER}</p>` +
-                                `<p>Date of Birth: ${person.DOB}</p>` +
-                                `<p>Wife: ${person.WIFE}</p>` +
-                                `<p>Children: ${person.CHILDREN.join(", ")}</p>`;
-      popup.style.display = "block";
-    });
+    popupImage.src = image.src;
+    popupDetails.innerHTML = `<p>Name: ${person.NAME}</p>` +
+                              `<p>Sex: ${person.SEX}</p>` +
+                              `<p>Father: ${person.FATHER}</p>` +
+                              `<p>Mother: ${person.MOTHER}</p>` +
+                              `<p>Date of Birth: ${person.DOB}</p>` +
+                              (person.SEX === "MALE"
+                                ? `<p>Wife: ${person.WIFE}</p>`
+                                : `<p>Husband: ${person.HUSBAND}</p>`) +
+                              `<p>Children: ${person.CHILDREN.join(", ")}</p>`;
+    popup.style.display = "block";
+  });
 
     const name = document.createElement("div");
     name.className = "name";
