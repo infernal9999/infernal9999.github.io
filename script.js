@@ -68,10 +68,13 @@ document.addEventListener("DOMContentLoaded", function() {
                               `<p>Date of Birth: ${person.DOB}</p>` +
                               (person.SEX === "MALE"
                                 ? `<p>Wife: ${person.WIFE}</p>`
-                                : `<p>Husband: ${person.HUSBAND}</p>`) +
+                                : (person.HUSBAND
+                                    ? `<p>Husband: ${person.HUSBAND}</p>`
+                                    : '')) +
                               `<p>Children: ${person.CHILDREN.join(", ")}</p>`;
     popup.style.display = "block";
   });
+
 
     const name = document.createElement("div");
     name.className = "name";
