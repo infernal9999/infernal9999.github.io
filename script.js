@@ -1,7 +1,7 @@
 // script.js
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import styled from 'styled-components';
+const { Component } = React;
+const { render } = ReactDOM;
+const styled = styled.default;
 
 const familyData = [
   {
@@ -360,4 +360,4 @@ class App extends Component {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+render(<App />, document.getElementById('root'));
