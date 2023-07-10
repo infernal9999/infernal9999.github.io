@@ -1,33 +1,24 @@
-body {
-  background-color: darkviolet;
-}
-
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  grid-gap: 20px;
-  justify-items: center;
+/* style.css */
+.family-tree {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  margin: 20px;
 }
 
-/* Containers */
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 10px;
-  color: navajowhite;
+  color: white;
   background-color: royalblue;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: background-color 0.2s ease;
-  /* Adjust the width and height based on image and text size */
   width: fit-content;
   height: fit-content;
-  /* Add some spacing between containers */
   margin: 10px;
 }
 
@@ -35,8 +26,37 @@ body {
   background-color: steelblue;
 }
 
+.container.husband {
+  background-color: darkcyan;
+}
 
-/* Person Image */
+.container.wife {
+  background-color: deeppink;
+}
+
+.container.spouse {
+  margin-top: 10px;
+}
+
+.container.siblings {
+  margin-top: 20px;
+}
+
+.container.sibling {
+  margin-right: 20px;
+}
+
+.container.children {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.container.child {
+  margin-right: 20px;
+}
+
 .container img {
   width: 100px;
   height: 100px;
@@ -44,15 +64,12 @@ body {
   border-radius: 50%;
 }
 
-/* Person Name */
 .name {
   margin-top: 10px;
   font-weight: bold;
   text-align: center;
 }
 
-
-/* Popup */
 #popup {
   display: none;
   position: fixed;
@@ -111,7 +128,6 @@ body {
   background-repeat: no-repeat;
 }
 
-/* Responsive Styles */
 @media (max-width: 768px) {
   .container {
     padding: 10px;
