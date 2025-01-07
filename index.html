@@ -1,15 +1,256 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="0; url=/FindMyMutual/">
-    <title>Redirecting...</title>
-    <script>
-        window.location.href = "/FindMyMutual/";
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Code Editor</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/htmlmixed/htmlmixed.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/javascript/javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/css/css.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+    .header {
+      display: flex;
+      background-color: #333;
+      color: white;
+      padding: 10px;
+      align-items: center;
+    }
+    .tabs {
+      flex: 1;
+      display: flex;
+      overflow-x: auto;
+    }
+    .tab {
+      display: flex;
+      align-items: center;
+      padding: 5px 10px;
+      margin-right: 5px;
+      background: #444;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    .tab.active {
+      background: #007BFF;
+    }
+    .tab .close-tab {
+      margin-left: 10px;
+      color: red;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .add-tab {
+      padding: 5px 10px;
+      background: #28a745;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    .main {
+      display: flex;
+      height: calc(100vh - 50px);
+    }
+    .editor {
+      flex: 1;
+      padding: 10px;
+      overflow: auto;
+    }
+    .preview {
+      flex: 1;
+      border-left: 2px solid #ccc;
+      display: flex;
+      flex-direction: column;
+    }
+    .iframe-container {
+      flex: 1;
+      border: none;
+    }
+    .console {
+      height: 150px;
+      background: #222;
+      color: white;
+      overflow-y: auto;
+      padding: 5px;
+      font-family: monospace;
+    }
+    .run-button {
+      background: #007BFF;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      margin: 10px;
+    }
+  </style>
 </head>
 <body>
-    If you are not redirected automatically, <a href="/FindMyMutual/">click here</a>.
+  <div class="header">
+    <div class="tabs" id="tabs"></div>
+    <button class="add-tab" onclick="addTab()">+</button>
+  </div>
+  <div class="main">
+    <div class="editor" id="editor-container"></div>
+    <div class="preview">
+      <iframe class="iframe-container" id="live-preview"></iframe>
+      <div class="console" id="console-output"></div>
+    </div>
+  </div>
+  <button class="run-button" onclick="runCode()">Run</button>
+
+  <script>
+    const tabsContainer = document.getElementById('tabs');
+    const editorContainer = document.getElementById('editor-container');
+    const livePreview = document.getElementById('live-preview');
+    const consoleOutput = document.getElementById('console-output');
+
+    let editors = {};
+    let activeTab = null;
+
+    function createEditor(content = '', mode = 'htmlmixed') {
+      const editor = CodeMirror(editorContainer, {
+        value: content,
+        mode,
+        lineNumbers: true,
+        autoCloseBrackets: true,
+        tabSize: 2,
+        theme: 'default',
+      });
+      return editor;
+    }
+
+    function addTab(name = `untitled-${Object.keys(editors).length + 1}.html`, content = '', mode = 'htmlmixed') {
+      const tabId = name;
+
+      if (editors[tabId]) {
+        alert('File name already exists!');
+        return;
+      }
+
+      const tabButton = document.createElement('button');
+      tabButton.className = 'tab';
+      tabButton.innerHTML = `${name}<span class="close-tab" onclick="deleteTab('${tabId}', event)">x</span>`;
+      tabButton.ondblclick = () => renameTab(tabId, tabButton);
+      tabButton.onclick = () => switchTab(tabId);
+      tabsContainer.appendChild(tabButton);
+
+      editors[tabId] = { editor: createEditor(content, mode), button: tabButton, name };
+
+      if (!activeTab) {
+        switchTab(tabId);
+      }
+    }
+
+    function switchTab(tabId) {
+      if (activeTab) {
+        editors[activeTab].button.classList.remove('active');
+        editors[activeTab].editor.getWrapperElement().style.display = 'none';
+      }
+
+      activeTab = tabId;
+      editors[tabId].button.classList.add('active');
+      editors[tabId].editor.getWrapperElement().style.display = 'block';
+      editors[tabId].editor.refresh();
+    }
+
+    function deleteTab(tabId, event) {
+      event.stopPropagation();
+      if (Object.keys(editors).length === 1) {
+        alert('At least one tab must remain open.');
+        return;
+      }
+
+      const { button, editor } = editors[tabId];
+      tabsContainer.removeChild(button);
+      editor.getWrapperElement().remove();
+      delete editors[tabId];
+
+      if (activeTab === tabId) {
+        const nextTab = Object.keys(editors)[0];
+        switchTab(nextTab);
+      }
+    }
+
+    function renameTab(tabId, tabButton) {
+      const newName = prompt('Enter new tab name:', editors[tabId].name);
+      if (newName && !editors[newName]) {
+        editors[newName] = editors[tabId];
+        delete editors[tabId];
+        editors[newName].name = newName;
+        tabButton.innerHTML = `${newName}<span class="close-tab" onclick="deleteTab('${newName}', event)">x</span>`;
+        tabButton.ondblclick = () => renameTab(newName, tabButton);
+      } else if (newName) {
+        alert('File name already exists or invalid.');
+      }
+    }
+
+    function runCode() {
+      const html = editors['index.html']?.editor.getValue() || '';
+      const css = `<style>${editors['style.css']?.editor.getValue() || ''}</style>`;
+      const js = editors['script.js']?.editor.getValue() || '';
+
+      const iframeDoc = livePreview.contentDocument || livePreview.contentWindow.document;
+      consoleOutput.innerHTML = ''; // Clear console
+      iframeDoc.open();
+
+      // Intercept console.log and errors
+      iframeDoc.write(`
+        <!DOCTYPE html>
+        <html>
+          <head>${css}</head>
+          <body>
+            ${html}
+            <script>
+              (function() {
+                const originalLog = console.log;
+                const originalError = console.error;
+                const originalWarn = console.warn;
+                const originalDebug = console.debug;
+                
+                // Override console methods
+                ['log', 'warn', 'error', 'debug'].forEach((method) => {
+                  console[method] = function(...args) {
+                    window.parent.postMessage({ type: method, data: JSON.stringify(args) }, '*');
+                    originalLog.apply(console, args);
+                  };
+                });
+
+                // Handle runtime errors
+                window.onerror = function(message, source, lineno, colno, error) {
+                  window.parent.postMessage({ type: 'error', data: `${message} at ${source}:${lineno}:${colno}` }, '*');
+                };
+              })();
+              ${js}
+            </script>
+          </body>
+        </html>
+      `);
+      iframeDoc.close();
+    }
+
+    window.addEventListener('message', (event) => {
+      if (event.data.type === 'log' || event.data.type === 'warn' || event.data.type === 'debug') {
+        consoleOutput.innerHTML += `<div>${event.data.data}</div>`;
+      } else if (event.data.type === 'error') {
+        consoleOutput.innerHTML += `<div style="color: red;">Error: ${event.data.data}</div>`;
+      }
+    });
+
+    function init() {
+      addTab('index.html', '<!DOCTYPE html>\n<html>\n<head>\n<title>Document</title>\n</head>\n<body>\n</body>\n</html>', 'htmlmixed');
+      addTab('style.css', '', 'css');
+      addTab('script.js', '', 'javascript');
+    }
+
+    window.onload = init;
+  </script>
 </body>
 </html>
