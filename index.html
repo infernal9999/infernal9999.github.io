@@ -128,47 +128,45 @@
     }
 
     function addTab(name = `untitled-${Object.keys(editors).length + 1}.html`, content = '', mode = 'htmlmixed') {
-  const tabId = name;
+      const tabId = name;
 
-  // Prevent duplicate tabs
-  if (editors[tabId]) {
-    alert('A tab with this name already exists!');
-    switchTab(tabId); // Switch to the existing tab
-    return;
-  }
+      // Prevent duplicate tabs
+      if (editors[tabId]) {
+        alert('A tab with this name already exists!');
+        switchTab(tabId); // Switch to the existing tab
+        return;
+      }
 
-  // Create the tab button
-  const tabButton = document.createElement('button');
-  tabButton.className = 'tab';
-  tabButton.innerHTML = `${name}<span class="close-tab" onclick="deleteTab('${tabId}', event)">x</span>`;
-  tabButton.ondblclick = () => renameTab(tabId, tabButton);
-  tabButton.onclick = () => switchTab(tabId);
-  tabsContainer.appendChild(tabButton);
+      // Create the tab button
+      const tabButton = document.createElement('button');
+      tabButton.className = 'tab';
+      tabButton.innerHTML = `${name}<span class="close-tab" onclick="deleteTab('${tabId}', event)">x</span>`;
+      tabButton.ondblclick = () => renameTab(tabId, tabButton);
+      tabButton.onclick = () => switchTab(tabId);
+      tabsContainer.appendChild(tabButton);
 
-  // Create the editor
-  const editor = createEditor(content, mode);
-  editor.getWrapperElement().style.display = 'none'; // Hide initially
+      // Create the editor
+      const editor = createEditor(content, mode);
+      editor.getWrapperElement().style.display = 'none'; // Hide initially
 
-  // Store the editor and tab information
-  editors[tabId] = { editor, button: tabButton, name };
+      // Store the editor and tab information
+      editors[tabId] = { editor, button: tabButton, name };
 
-  // Automatically switch to the new tab
-  switchTab(tabId);
-}
+      // Automatically switch to the new tab
+      switchTab(tabId);
+    }
 
-function switchTab(tabId) {
-  if (activeTab) {
-    // Hide the current active editor and deactivate its tab button
-    editors[activeTab].editor.getWrapperElement().style.display = 'none';
-    editors[activeTab].button.classList.remove('active');
-  }
+    function switchTab(tabId) {
+      if (activeTab) {
+        editors[activeTab].editor.getWrapperElement().style.display = 'none';
+        editors[activeTab].button.classList.remove('active');
+      }
 
-  // Show the selected tab's editor and activate its tab button
-  activeTab = tabId;
-  editors[tabId].editor.getWrapperElement().style.display = 'block';
-  editors[tabId].button.classList.add('active');
-  editors[tabId].editor.refresh(); // Refresh the editor layout
-}
+      activeTab = tabId;
+      editors[tabId].editor.getWrapperElement().style.display = 'block';
+      editors[tabId].button.classList.add('active');
+      editors[tabId].editor.refresh();
+    }
 
     function deleteTab(tabId, event) {
       event.stopPropagation();
@@ -190,12 +188,16 @@ function switchTab(tabId) {
 
     function renameTab(tabId, tabButton) {
       const newName = prompt('Enter new tab name:', editors[tabId].name);
+
       if (newName && !editors[newName]) {
         editors[newName] = editors[tabId];
         delete editors[tabId];
         editors[newName].name = newName;
         tabButton.innerHTML = `${newName}<span class="close-tab" onclick="deleteTab('${newName}', event)">x</span>`;
         tabButton.ondblclick = () => renameTab(newName, tabButton);
+        if (activeTab === tabId) {
+          activeTab = newName;
+        }
       } else if (newName) {
         alert('File name already exists or invalid.');
       }
@@ -206,7 +208,7 @@ function switchTab(tabId) {
       const css = `<style>${editors['style.css']?.editor.getValue() || ''}</style>`;
       const js = editors['script.js']?.editor.getValue() || '';
 
-      consoleOutput.innerHTML = ''; // Clear console
+      consoleOutput.innerHTML = '';
       const iframeDoc = livePreview.contentDocument || livePreview.contentWindow.document;
 
       iframeDoc.open();
