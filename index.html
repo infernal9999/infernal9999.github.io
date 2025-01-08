@@ -14,82 +14,18 @@
       margin: 0;
       font-family: Arial, sans-serif;
     }
-    .header {
-      display: flex;
-      background-color: #333;
-      color: white;
-      padding: 10px;
-      align-items: center;
-    }
-    .tabs {
-      flex: 1;
-      display: flex;
-      overflow-x: auto;
-    }
-    .tab {
-      display: flex;
-      align-items: center;
-      padding: 5px 10px;
-      margin-right: 5px;
-      background: #444;
-      color: white;
-      border: none;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-    .tab.active {
-      background: #007BFF;
-    }
-    .tab .close-tab {
-      margin-left: 10px;
-      color: red;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .add-tab {
-      padding: 5px 10px;
-      background: #28a745;
-      color: white;
-      border: none;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-    .main {
-      display: flex;
-      height: calc(100vh - 50px);
-    }
-    .editor {
-      flex: 1;
-      padding: 10px;
-      overflow: auto;
-    }
-    .preview {
-      flex: 1;
-      border-left: 2px solid #ccc;
-      display: flex;
-      flex-direction: column;
-    }
-    .iframe-container {
-      flex: 1;
-      border: none;
-    }
-    .console {
-      height: 150px;
-      background: #222;
-      color: white;
-      overflow-y: auto;
-      padding: 5px;
-      font-family: monospace;
-    }
-    .run-button {
-      background: #007BFF;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      cursor: pointer;
-      border-radius: 4px;
-      margin: 10px;
-    }
+    .header { display: flex; background-color: #333; color: white; padding: 10px; align-items: center; }
+    .tabs { flex: 1; display: flex; overflow-x: auto; }
+    .tab { display: flex; align-items: center; padding: 5px 10px; margin-right: 5px; background: #444; color: white; border: none; cursor: pointer; border-radius: 4px; }
+    .tab.active { background: #007BFF; }
+    .tab .close-tab { margin-left: 10px; color: red; cursor: pointer; font-weight: bold; }
+    .add-tab { padding: 5px 10px; background: #28a745; color: white; border: none; cursor: pointer; border-radius: 4px; }
+    .main { display: flex; height: calc(100vh - 50px); }
+    .editor { flex: 1; padding: 10px; overflow: auto; }
+    .preview { flex: 1; border-left: 2px solid #ccc; display: flex; flex-direction: column; }
+    .iframe-container { flex: 1; border: none; }
+    .console { height: 150px; background: #222; color: white; overflow-y: auto; padding: 5px; font-family: monospace; }
+    .run-button { background: #007BFF; color: white; padding: 10px 20px; border: none; cursor: pointer; border-radius: 4px; margin: 10px; }
   </style>
 </head>
 <body>
@@ -128,77 +64,37 @@
     }
 
     function addTab(name = `untitled-${Object.keys(editors).length + 1}.html`, content = '', mode = 'htmlmixed') {
-  const tabId = name;
+      const tabId = name;
 
-  // Prevent duplicate tabs
-  if (editors[tabId]) {
-    alert('A tab with this name already exists!');
-    switchTab(tabId); // Switch to the existing tab
-    return;
-  }
-
-  // Create the tab button
-  const tabButton = document.createElement('button');
-  tabButton.className = 'tab';
-  tabButton.innerHTML = `${name}<span class="close-tab" onclick="deleteTab('${tabId}', event)">x</span>`;
-  tabButton.ondblclick = () => renameTab(tabId, tabButton);
-  tabButton.onclick = () => switchTab(tabId);
-  tabsContainer.appendChild(tabButton);
-
-  // Create the editor
-  const editor = createEditor(content, mode);
-  editor.getWrapperElement().style.display = 'none'; // Hide initially
-
-  // Store the editor and tab information
-  editors[tabId] = { editor, button: tabButton, name };
-
-  // Automatically switch to the new tab
-  switchTab(tabId);
-}
-
-function switchTab(tabId) {
-  if (activeTab) {
-    // Hide the current active editor and deactivate its tab button
-    editors[activeTab].editor.getWrapperElement().style.display = 'none';
-    editors[activeTab].button.classList.remove('active');
-  }
-
-  // Show the selected tab's editor and activate its tab button
-  activeTab = tabId;
-  editors[tabId].editor.getWrapperElement().style.display = 'block';
-  editors[tabId].button.classList.add('active');
-  editors[tabId].editor.refresh(); // Refresh the editor layout
-}
-
-    function deleteTab(tabId, event) {
-      event.stopPropagation();
-      if (Object.keys(editors).length === 1) {
-        alert('At least one tab must remain open.');
+      if (editors[tabId]) {
+        alert('A tab with this name already exists!');
+        switchTab(tabId);
         return;
       }
 
-      const { button, editor } = editors[tabId];
-      tabsContainer.removeChild(button);
-      editor.getWrapperElement().remove();
-      delete editors[tabId];
+      const tabButton = document.createElement('button');
+      tabButton.className = 'tab';
+      tabButton.innerHTML = `${name}<span class="close-tab" onclick="deleteTab('${tabId}', event)">x</span>`;
+      tabButton.ondblclick = () => renameTab(tabId, tabButton);
+      tabButton.onclick = () => switchTab(tabId);
+      tabsContainer.appendChild(tabButton);
 
-      if (activeTab === tabId) {
-        const nextTab = Object.keys(editors)[0];
-        switchTab(nextTab);
-      }
+      const editor = createEditor(content, mode);
+      editor.getWrapperElement().style.display = 'none';
+
+      editors[tabId] = { editor, button: tabButton, name };
+      switchTab(tabId);
     }
 
-    function renameTab(tabId, tabButton) {
-      const newName = prompt('Enter new tab name:', editors[tabId].name);
-      if (newName && !editors[newName]) {
-        editors[newName] = editors[tabId];
-        delete editors[tabId];
-        editors[newName].name = newName;
-        tabButton.innerHTML = `${newName}<span class="close-tab" onclick="deleteTab('${newName}', event)">x</span>`;
-        tabButton.ondblclick = () => renameTab(newName, tabButton);
-      } else if (newName) {
-        alert('File name already exists or invalid.');
+    function switchTab(tabId) {
+      if (activeTab) {
+        editors[activeTab].editor.getWrapperElement().style.display = 'none';
+        editors[activeTab].button.classList.remove('active');
       }
+      activeTab = tabId;
+      editors[tabId].editor.getWrapperElement().style.display = 'block';
+      editors[tabId].button.classList.add('active');
+      editors[tabId].editor.refresh();
     }
 
     function runCode() {
@@ -206,32 +102,29 @@ function switchTab(tabId) {
       const css = `<style>${editors['style.css']?.editor.getValue() || ''}</style>`;
       const js = editors['script.js']?.editor.getValue() || '';
 
-      consoleOutput.innerHTML = ''; // Clear console
+      consoleOutput.innerHTML = '';
       const iframeDoc = livePreview.contentDocument || livePreview.contentWindow.document;
 
       iframeDoc.open();
-      iframeDoc.write(`
-        <!DOCTYPE html>
-        <html>
-          <head>${css}</head>
-          <body>
-            ${html}
-            <script>
-              window.onerror = function(message, source, lineno, colno, error) {
-                parent.postMessage({ type: 'error', data: \`\${message} at \${source}:\${lineno}:\${colno}\` }, '*');
-              };
-              (function() {
-                const log = console.log;
-                console.log = function(...args) {
-                  parent.postMessage({ type: 'log', data: JSON.stringify(args) }, '*');
-                  log.apply(console, args);
+      try {
+        iframeDoc.write(`
+          <!DOCTYPE html>
+          <html>
+            <head>${css}</head>
+            <body>
+              ${html}
+              <script>
+                window.onerror = function(message, source, lineno, colno, error) {
+                  parent.postMessage({ type: 'error', data: \`\${message} at \${source}:\${lineno}:\${colno}\` }, '*');
                 };
-              })();
-              ${js}
-            <\/script>
-          </body>
-        </html>
-      `);
+                ${js}
+              <\/script>
+            </body>
+          </html>
+        `);
+      } catch (e) {
+        consoleOutput.innerHTML += `<div style="color: red;">HTML Error: ${e.message}</div>`;
+      }
       iframeDoc.close();
     }
 
